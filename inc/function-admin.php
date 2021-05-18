@@ -14,13 +14,15 @@ function sunset_add_admin_page() {
   add_submenu_page('gbgabiola_sunset', 'Sunset Theme Options', 'General', 'manage_options', 'gbgabiola_sunset', 'sunset_theme_create_page');
   add_submenu_page('gbgabiola_sunset', 'Sunset CSS Options', 'Custom CSS', 'manage_options', 'gbgabiola_sunset_css', 'sunset_theme_settings_page');
 
-  // Activate custom settings
-  add_action('admin_init', 'sunset_custom_settings');
 }
 add_action('admin_menu', 'sunset_add_admin_page');
 
+// Activate custom settings
+add_action('admin_init', 'sunset_custom_settings');
 
 function sunset_custom_settings() {
+  // Sidebar Options
+  register_setting('sunset-settings-group', 'profile_picture');
   register_setting('sunset-settings-group', 'first_name');
   register_setting('sunset-settings-group', 'last_name');
   register_setting('sunset-settings-group', 'user_description');
@@ -30,6 +32,8 @@ function sunset_custom_settings() {
   register_setting('sunset-settings-group', 'instagram_handler');
 
   add_settings_section('sunset-sidebar-options', 'Sidebar Options', 'sunset_sidebar_options', 'gbgabiola_sunset');
+
+  add_settings_field('sidebar-profile-picture', 'Profile Picture', 'sunset_sidebar_profile', 'gbgabiola_sunset', 'sunset-sidebar-options');
   add_settings_field('sidebar-name', 'Full Name', 'sunset_sidebar_name', 'gbgabiola_sunset', 'sunset-sidebar-options');
   add_settings_field('sidebar-description', 'Description', 'sunset_sidebar_description', 'gbgabiola_sunset', 'sunset-sidebar-options');
   add_settings_field('sidebar-twitter', 'Twitter handler', 'sunset_sidebar_twitter', 'gbgabiola_sunset', 'sunset-sidebar-options');
@@ -37,8 +41,14 @@ function sunset_custom_settings() {
   add_settings_field('sidebar-instagram', 'Instagram handler', 'sunset_sidebar_instagram', 'gbgabiola_sunset', 'sunset-sidebar-options');
 }
 
+// Sidebar Options Functions
 function sunset_sidebar_options() {
   echo 'Customize your Sidebar Information';
+}
+
+function sunset_sidebar_profile() {
+  $picture = esc_attr(get_option('profile_picture'));
+  echo '<input type="button" class="button button-secondary" id="upload-button" value="Upload Profile Picture" /><input type="hidden" id="profile-picture" name="profile_picture" value="' . $picture . '" />';
 }
 
 function sunset_sidebar_name() {
@@ -74,12 +84,11 @@ function sunset_sanitize_twitter_handler($input) {
   return $output;
 }
 
+// Template Submenu Functions
 function sunset_theme_create_page() {
-  // generation of admin page
   require_once(get_template_directory() . '/inc/templates/sunset-admin.php');
 }
 
 function sunset_theme_settings_page() {
-  // generation of admin sub page
   echo '<h1>Sunset Custom CSS</h1>';
 }
