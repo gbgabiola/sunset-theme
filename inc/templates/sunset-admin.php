@@ -24,6 +24,6 @@ $description = esc_attr(get_option('user_description'));
   <?php
   settings_fields('sunset-settings-group');
   do_settings_sections('gbgabiola_sunset');
-  submit_button();
+  submit_button('Save Changes', 'primary', 'btnSubmit');
   ?>
 </form>

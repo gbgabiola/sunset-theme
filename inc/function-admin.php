@@ -41,20 +41,16 @@ function sunset_custom_settings() {
   add_settings_field('sidebar-instagram', 'Instagram handler', 'sunset_sidebar_instagram', 'gbgabiola_sunset', 'sunset-sidebar-options');
 
   // Theme Support Options
-  register_setting('sunset-theme-support', 'post_formats', 'sunset_post_formats_callback');
+  register_setting('sunset-theme-support', 'post_formats');
+  register_setting('sunset-theme-support', 'custom_header');
+  register_setting('sunset-theme-support', 'custom_background');
 
   add_settings_section('sunset-theme-options', 'Theme Options', 'sunset_theme_options', 'gbgabiola_sunset_theme');
 
   add_settings_field('post-formats', 'Post Formats', 'sunset_post_formats', 'gbgabiola_sunset_theme', 'sunset-theme-options');
+  add_settings_field('custom-header', 'Custom Header', 'sunset_custom_header', 'gbgabiola_sunset_theme', 'sunset-theme-options');
+  add_settings_field('custom-background', 'Custom Background', 'sunset_custom_background', 'gbgabiola_sunset_theme', 'sunset-theme-options');
 }
-
-// Post Formats Callback Function
-function sunset_post_formats_callback($input) {
-  // var_dump($input);
-  // die("products_first_ends");
-  return $input;
-}
-
 function sunset_theme_options() {
   echo 'Activate and Deactivate specific Theme Support Options';
 }
@@ -70,6 +66,18 @@ function sunset_post_formats() {
   echo $output;
 }
 
+function sunset_custom_header() {
+  $options = get_option('custom_header');
+  $checked = (@$options == 1 ? 'checked' : '');
+  echo '<label><input type="checkbox" id ="custom_header" name="custom_header" value="1" ' . $checked . ' /> Activate the Custom Header</label>';
+}
+
+function sunset_custom_background() {
+  $options = get_option('custom_background');
+  $checked = (@$options == 1 ? 'checked' : '');
+  echo '<label><input type="checkbox" id ="custom_background" name="custom_background" value="1" ' . $checked . ' /> Activate the Custom Background</label>';
+}
+
 // Sidebar Options Functions
 function sunset_sidebar_options() {
   echo 'Customize your Sidebar Information';
@@ -77,7 +85,11 @@ function sunset_sidebar_options() {
 
 function sunset_sidebar_profile() {
   $picture = esc_attr(get_option('profile_picture'));
-  echo '<input type="button" class="button button-secondary" id="upload-button" value="Upload Profile Picture" /><input type="hidden" id="profile-picture" name="profile_picture" value="' . $picture . '" />';
+  if (empty($picture)) {
+    echo '<input type="button" class="button button-secondary" id="upload-button" value="Upload Profile Picture" /><input type="hidden" id="profile-picture" name="profile_picture" value="" />';
+  } else {
+    echo '<input type="button" class="button button-secondary" id="upload-button" value="Replace Profile Picture" /><input type="hidden" id="profile-picture" name="profile_picture" value="' . $picture . '" /> <input type="button" class="button button-secondary" id="remove-picture" value="Remove" />';
+  }
 }
 
 function sunset_sidebar_name() {
