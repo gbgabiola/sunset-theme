@@ -1,11 +1,10 @@
 <?php
-
-/*
-@package sunset-theme
-	==========================================
-	 ADMIN PAGE
-	==========================================
-*/
+/**
+ * @package sunset-theme
+ * ==========================================
+ *  ADMIN PAGE
+ * ==========================================
+ */
 function sunset_add_admin_page() {
   // Generate Sunset Admin Page
   add_menu_page('Sunset Theme Options', 'Sunset', 'manage_options', 'gbgabiola_sunset', 'sunset_theme_create_page', get_template_directory_uri() . '/img/sunset-icon.png', 110);
@@ -122,9 +121,9 @@ function sunset_sidebar_options() {
 function sunset_sidebar_profile() {
   $picture = esc_attr(get_option('profile_picture'));
   if (empty($picture)) {
-    echo '<input type="button" class="button button-secondary" id="upload-button" value="Upload Profile Picture" /><input type="hidden" id="profile-picture" name="profile_picture" value="" />';
+    echo '<button type="button" class="button button-secondary" id="upload-button" value="Upload Profile Picture"><span class="sunset-icon-button dashicons-before dashicons-format-image"></span> Upload Profile Picture</button><input type="hidden" id="profile-picture" name="profile_picture" value="" />';
   } else {
-    echo '<input type="button" class="button button-secondary" id="upload-button" value="Replace Profile Picture" /><input type="hidden" id="profile-picture" name="profile_picture" value="' . $picture . '" /> <input type="button" class="button button-secondary" id="remove-picture" value="Remove" />';
+    echo '<button type="button" class="button button-secondary" id="upload-button" value="Replace Profile Picture"><span class="sunset-icon-button dashicons-before dashicons-format-image"></span> Replace Profile Picture</button><input type="hidden" id="profile-picture" name="profile_picture" value="' . $picture . '" /> <button type="button" class="button button-secondary" id="remove-picture" value="Remove"><span class="sunset-icon-button dashicons-before dashicons-no"></span> Remove</button>';
   }
 }
 

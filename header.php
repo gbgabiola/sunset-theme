@@ -1,6 +1,6 @@
 <?php
 /**
- * The template for displaying the header
+ * The template for the header
  * @package sunset-theme
  */
 
@@ -15,8 +15,13 @@
   <link rel="profile" href="http://gmpg.org/xfn/11">
   <?php if (is_singular() && pings_open(get_queried_object())): ?>
     <link rel="pingback" href="<?php bloginfo('pingback_url'); ?>">
-  <?php endif; ?>
-  <?php wp_head(); ?>
+  <?php endif;
+  wp_head();
+  $custom_css = esc_attr(get_option('sunset_css'));
+  if (!empty($custom_css)) {
+    echo '<style>' . $custom_css . '</style>';
+  }
+  ?>
 </head>
 
 <body <?php body_class(); ?>>
